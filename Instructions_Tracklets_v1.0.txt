@@ -1,0 +1,58 @@
+Instructions to use Tracklets analysis framework on lxplus.cern.ch from the scratch
+
+1. Download the Tracklets.zip from the link in email to your local computer (its a large file 900 MB due to MC and real data) (also check alternate method in point 5)
+
+
+2. copy downloaded Tracklets.zip file to your lxplus area
+
+you may use following command to copy (but you need to change username) or some software like fitzilla etc
+
+scp Tracklets.zip ppalni@lxplus.cern.ch:/afs/cern.ch/user/p/ppalni
+
+3. Login to lxplus using your username
+
+--  ssh -X -Y your_username@lxplus.cern.ch
+
+4. Load the ALICE environment from cvmfs
+
+-- source /cvmfs/alice.cern.ch/etc/login.sh
+
+5. Load Aliphysics package in your environment (I am loading latest AliPhysics version 20170613)
+
+-- alienv enter VO_ALICE@AliPhysics::vAN-20170725-1
+
+6. go into the unzipped Tracklets directory from the Tracklets.zip
+
+-- cd Tracklets
+
+7. You can test analysis on grid using following commands
+
+-- root -l -b 'runAnaTracklets.C(0,1,1,"mc")'
+
+-- root -l -b 'runAnaTracklets.C(0,1,0,"data")'
+
+
+Above two commands will produce two output name "data.root" and "mc.root"
+
+8. To produce QA and results plots Use the macro already there to run following command
+
+ -- root -l plotTracklets.C("data.root","mc.root")
+
+Above command will save various plots in present director, have a look at them
+
+9. To run for full run jobs on grid use following commands (by default I set to 5.02 TeV pp 1 run)
+
+-- root -l -b 'runAnaTracklets.C(0,0,1,"mc")'
+
+-- root -l -b 'runAnaTracklets.C(0,0,0,"data")'
+
+please change the username in the code in line 101
+
+10. Rest procedure to plot is same as in 7. You can also give any name to output file in 4th argument of runAnaTracklets.C(0,1,0,"data") but change accordingly those names in plotting macros
+
+
+11. Run the code using following command in "local mode" for data and MC output (IF you already have data/MC locally in  ESD format downloaded)
+
+-- root -l -b 'runAnaTracklets.C(1,0,0,"data")'
+
+-- root -l -b 'runAnaTracklets.C(1,0,1,"mc")'
